@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Room extends Model
+class Project extends Model
 {
     protected $fillable = [
         'name',
+        'description',
+        'tags',
         'public',
+        'width',
+        'height',
+        'framerate',
     ];
 
     public function user(): BelongsTo
@@ -18,13 +23,8 @@ class Room extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function project(): BelongsTo
+    public function canvas(): HasMany
     {
-        return $this->belongsTo(Project::class);
-    }
-
-    public function member(): HasMany
-    {
-        return $this->hasMany(RoomMember::class);
+        return $this->hasMany(Canvas::class)->orderBy('sort_order');
     }
 }
