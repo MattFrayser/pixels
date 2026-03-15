@@ -16,5 +16,4 @@ class RoomMember extends Model
     {
         return $this->belongsTo(Room::class);
     }
-
 }

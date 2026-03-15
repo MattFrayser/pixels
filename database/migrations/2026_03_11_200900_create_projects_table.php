@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->boolean('public')->default(false);
+            $table->integer('favorites')->default(0);
+            $table->integer('width');
+            $table->integer('height');
+            $table->integer('framerate');
+            $table->binary('thumbnail')->nullable();
             $table->timestamps();
         });
     }

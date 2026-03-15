@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('canvases', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
+            $table->integer('sort_order');
+            $table->binary('snapshot')->nullable();
             $table->timestamps();
         });
     }

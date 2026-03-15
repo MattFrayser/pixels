@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Canvas extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'room',
-        'width',
-        'height',
-        'public'
+        'project_id',
+        'sort_order',
+        'snapshot',
     ];
 
     public function project(): BelongsTo
@@ -20,7 +22,7 @@ class Canvas extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function pixel(): HasMany
+    public function pixels(): HasMany
     {
         return $this->hasMany(Pixel::class);
     }

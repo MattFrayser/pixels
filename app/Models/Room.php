@@ -2,29 +2,35 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Room extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'public',
+        'project_id',
     ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
 
-    public function member(): HasMany
+    public function owner()
     {
-        return $this->hasMany(RoomMember::class);
+        return $this->project->user;
+    }
+
+    public function members(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'room_members')
+            ->withPivot('role')
+            ->withTimestamps();
     }
 }
