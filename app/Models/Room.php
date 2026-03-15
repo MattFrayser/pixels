@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Room extends Model
 {
@@ -22,9 +23,9 @@ class Room extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function owner()
+    public function owner(): HasOneThrough
     {
-        return $this->project->user;
+        return $this->hasOneThrough(User::class, Project::class);
     }
 
     public function members(): BelongsToMany

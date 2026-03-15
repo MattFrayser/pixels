@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Project extends Model
 {
@@ -30,5 +31,10 @@ class Project extends Model
     public function canvases(): HasMany
     {
         return $this->hasMany(Canvas::class)->orderBy('sort_order');
+    }
+
+    public function room(): HasOne
+    {
+        return $this->HasOne(Room::class);
     }
 }

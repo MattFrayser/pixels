@@ -15,7 +15,7 @@ class Pixel extends Model
         'x',
         'y',
         'color',
-        'place_by',
+        'user_id',
     ];
 
     public function canvas(): BelongsTo
