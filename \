@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\RoomMemberController;
 use App\Http\Controllers\RoomController;
-use App\Http\Controllers\CanvasController;
 
 // Public
 Route::get('/', function () {
@@ -14,10 +12,10 @@ Route::get('/', function () {
 Route::get('/projects', [ProjectController::class, 'index'])
     ->name('projects.index');
 
-Route::get('/projects/{project}', [ProjectController::class, 'show'])
+Route::get('/projects/{project}', [ProjectController::class, 'show']);
     ->name('projects.show');
 
-Route::get('/rooms', [RoomController::class, 'index'])
+Route::get('/rooms', [RoomController::class, 'index']);
     ->name('rooms.index');
 
 
@@ -28,25 +26,17 @@ Route::middleware(['auth'])->group( function () {
     Route::patch('/projects/{project}', [ProjectController::class, 'update'])
         ->name('projects.update');
     Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])
-        ->name('projects.destroy');
+        ->name('projects.delete');
 
     // Rooms
     Route::post('/projects/{project}/room', [RoomController::class, 'store'])
         ->name('rooms.store');
     Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])
-        ->name('rooms.destroy');
-    Route::post('/rooms/{room}/join', [RoomMemberController::class, 'store'])
-        ->name('rooms.members.store');
-    Route::delete('/rooms/{room}/leave', [RoomMemberController::class, 'destroy'])
-        ->name('rooms.members.destroy');
-
-    // Canvases
-    Route::post('/projects/{project}/canvases', [CanvasController::class, 'store'])
-        ->name('canvas.store');
-    Route::patch('/canvases/{canvas}', [CanvasController::class, 'update'])
-        ->name('canvas.update');
-    Route::delete('/canvases/{canvas}', [CanvasController::class, 'destroy'])
-        ->name('canvas.destroy');
+        ->name('rooms.destory');
+    Route::post('/rooms/{room}/join', [RoomManager::class, 'join'])
+        ->name('rooms.join');
+    Route::delete('/rooms/{room}/leave', [RoomManager::class, 'leave'])
+        ->name('rooms.leave');
 });
 
 require __DIR__.'/settings.php';

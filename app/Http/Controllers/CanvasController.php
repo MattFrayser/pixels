@@ -8,27 +8,16 @@ use Illuminate\Http\Request;
 class CanvasController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
-    }
+        $this->authorize('create', [Canvas::class, $project]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Canvas $canvas)
-    {
-        //
+        $canvas = Canvas::create([
+            'project_id' => $project->id,
+            'sort_order' => $project->canvases()->max('sort_order') + 1,
+        ]);
     }
 
     /**
@@ -36,7 +25,14 @@ class CanvasController extends Controller
      */
     public function update(Request $request, Canvas $canvas)
     {
-        //
+        $this->authorize('update', $canvas);
+
+        $max = $canvas->project->canvases()->max('sort_order');
+        $validated = $request->validate([
+           'sort_order' => "integer|min:0|max:{$max}"
+        ]);
+
+        $canvas = Canvas->update($validated);
     }
 
     /**
@@ -44,6 +40,7 @@ class CanvasController extends Controller
      */
     public function destroy(Canvas $canvas)
     {
-        //
+        $this->authorize('delete', $canvas);
+        $canvas->destroy();
     }
 }

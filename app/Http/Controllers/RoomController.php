@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RoomController extends Controller
 {
@@ -13,28 +14,17 @@ class RoomController extends Controller
     public function index()
     {
         //
+        $rooms = Room::query()->where('public', true)->get();
+
+        return Inertia::render('Roomss/Index', [
+            'rooms' => $rooms,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Room $room)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Room $room)
     {
         //
     }
