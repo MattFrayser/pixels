@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
 
         $canvas = $project->canvases()->orderBy('sort_order')->first();
         Pixel::factory()->forCanvas($canvas)->count(10)->create([
-            'placed_by' => $toome->members()->random()->id,
+            'user_id' => $room->members()->random()->id,
         ]);
 
         // Private Project

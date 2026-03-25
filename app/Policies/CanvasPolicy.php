@@ -3,9 +3,9 @@
 namespace App\Policies;
 
 use App\Models\Canvas;
-use App\RoomRole;
+use App\Models\Project;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use App\RoomRole;
 
 class CanvasPolicy
 {
@@ -50,7 +50,7 @@ class CanvasPolicy
      */
     public function delete(User $user, Canvas $canvas): bool
     {
-        return $user->id === $canvas->project->user->id;
+        return $user->id === $canvas->project->user_id;
     }
 
     /**

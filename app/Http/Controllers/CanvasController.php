@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Canvas;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class CanvasController extends Controller
@@ -14,7 +15,7 @@ class CanvasController extends Controller
     {
         $this->authorize('create', [Canvas::class, $project]);
 
-        $canvas = Canvas::create([
+        Canvas::create([
             'project_id' => $project->id,
             'sort_order' => $project->canvases()->max('sort_order') + 1,
         ]);
@@ -29,10 +30,10 @@ class CanvasController extends Controller
 
         $max = $canvas->project->canvases()->max('sort_order');
         $validated = $request->validate([
-           'sort_order' => "integer|min:0|max:{$max}"
+            'sort_order' => "integer|min:0|max:{$max}",
         ]);
 
-        $canvas = Canvas->update($validated);
+        $canvas->update($validated);
     }
 
     /**
@@ -41,6 +42,6 @@ class CanvasController extends Controller
     public function destroy(Canvas $canvas)
     {
         $this->authorize('delete', $canvas);
-        $canvas->destroy();
+        $canvas->delete();
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\RoomMemberController;
-use App\Http\Controllers\RoomController;
 use App\Http\Controllers\CanvasController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\RoomMemberController;
+use Illuminate\Support\Facades\Route;
 
 // Public
 Route::get('/', function () {
@@ -20,8 +20,7 @@ Route::get('/projects/{project}', [ProjectController::class, 'show'])
 Route::get('/rooms', [RoomController::class, 'index'])
     ->name('rooms.index');
 
-
-Route::middleware(['auth'])->group( function () {
+Route::middleware(['auth'])->group(function () {
     // Projects
     Route::post('/projects', [ProjectController::class, 'store'])
         ->name('projects.store');
@@ -31,10 +30,14 @@ Route::middleware(['auth'])->group( function () {
         ->name('projects.destroy');
 
     // Rooms
+    Route::post('/rooms', [RoomController::class, 'index'])
+        ->name('rooms.index');
     Route::post('/projects/{project}/room', [RoomController::class, 'store'])
         ->name('rooms.store');
     Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])
         ->name('rooms.destroy');
+    Route::get('/rooms/{room}', [RoomController::class, 'show'])
+        ->name('rooms.show');
     Route::post('/rooms/{room}/join', [RoomMemberController::class, 'store'])
         ->name('rooms.members.store');
     Route::delete('/rooms/{room}/leave', [RoomMemberController::class, 'destroy'])

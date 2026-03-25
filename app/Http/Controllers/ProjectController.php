@@ -30,7 +30,7 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
 
-        $project = Project::create($validated);
+        $project = $request->user()->projects()->create($validated);
 
         return redirect()->route('projects.show', $project);
     }

@@ -26,7 +26,7 @@ class PixelFactory extends Factory
             'x' => fake()->numberBetween(0, 126),
             'y' => fake()->numberBetween(0, 126),
             'color' => fake()->hexColor(),
-            'placed_by' => User::factory(),
+            'user_id' => User::factory(),
         ];
     }
 
