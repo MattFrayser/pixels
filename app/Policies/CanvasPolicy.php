@@ -8,7 +8,6 @@ use App\Models\User;
 
 class CanvasPolicy
 {
-
     public function view(User $user, Canvas $canvas): bool
     {
         return $user->id === $canvas->project->user_id || $canvas->project->public;

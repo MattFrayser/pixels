@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\CanvasController;
+use App\Http\Controllers\PixelController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomMemberController;
-use App\Http\Controllers\PixelController;
 use Illuminate\Support\Facades\Route;
 
 // Public
