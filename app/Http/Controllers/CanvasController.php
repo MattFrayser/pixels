@@ -8,10 +8,7 @@ use Illuminate\Http\Request;
 
 class CanvasController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request, Project $project)
+    public function store(Request $request, Project $project): void
     {
         $this->authorize('create', [Canvas::class, $project]);
 
@@ -21,10 +18,7 @@ class CanvasController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Canvas $canvas)
+    public function update(Request $request, Canvas $canvas): void
     {
         $this->authorize('update', $canvas);
 
@@ -36,10 +30,7 @@ class CanvasController extends Controller
         $canvas->update($validated);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Canvas $canvas)
+    public function destroy(Canvas $canvas): void
     {
         $this->authorize('delete', $canvas);
         $canvas->delete();

@@ -23,14 +23,11 @@ class DatabaseSeeder extends Seeder
 
         $project = Project::factory()->withFrames(3)->create(['user_id' => $owner->id]);
         $room = Room::factory()->create(['project_id' => $project->id, 'public' => true]);
-
-        foreach ($members as $member) {
-            $room->members()->attach($member->id, ['role' => 'editor']);
-        }
+        $room->members()->attach($members->pluck('id'));
 
         $canvas = $project->canvases()->orderBy('sort_order')->first();
         Pixel::factory()->forCanvas($canvas)->count(10)->create([
-            'user_id' => $room->members()->random()->id,
+            'user_id' => $members->random()->id,
         ]);
 
         // Private Project

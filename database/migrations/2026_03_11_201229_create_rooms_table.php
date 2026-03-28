@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
-            $table->boolean('public')->default('true');
+            $table->boolean('public')->default(true);
             $table->timestamps();
         });
     }

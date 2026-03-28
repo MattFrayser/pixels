@@ -9,9 +9,6 @@ use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $projects = Project::query()->where('public', true)->get();
@@ -21,9 +18,6 @@ class ProjectController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreProjectRequest $request)
     {
         $this->authorize('create', Project::class);
@@ -35,9 +29,6 @@ class ProjectController extends Controller
         return redirect()->route('projects.show', $project);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Project $project)
     {
         if (! $project->public) {
@@ -49,9 +40,6 @@ class ProjectController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $this->authorize('update', $project);
@@ -62,9 +50,6 @@ class ProjectController extends Controller
         return redirect()->route('projects.show', $project);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Project $project)
     {
         $this->authorize('delete', $project);

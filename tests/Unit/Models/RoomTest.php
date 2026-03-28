@@ -21,18 +21,7 @@ test('rooms can have multiple members', function () {
     $room = Room::factory()->create();
     $members = User::factory()->count(3)->create();
 
-    $room->members()->attach($members->pluck('id'), ['role' => 'viewer']);
+    $room->members()->attach($members->pluck('id'));
 
     expect($room->members)->toHaveCount(3);
-});
-
-// -- Pivot --
-test('room members have role on pivot table', function () {
-    $room = Room::factory()->create();
-    $user = User::factory()->create();
-
-    $room->members()->attach($user, ['role' => 'editor']);
-
-    $member = $room->members()->first();
-    expect($member->pivot->role)->toBe('editor');
 });

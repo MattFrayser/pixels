@@ -4,6 +4,7 @@ use App\Http\Controllers\CanvasController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomMemberController;
+use App\Http\Controllers\PixelController;
 use Illuminate\Support\Facades\Route;
 
 // Public
@@ -30,8 +31,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('projects.destroy');
 
     // Rooms
-    Route::post('/rooms', [RoomController::class, 'index'])
-        ->name('rooms.index');
     Route::post('/projects/{project}/room', [RoomController::class, 'store'])
         ->name('rooms.store');
     Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])
@@ -50,6 +49,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('canvas.update');
     Route::delete('/canvases/{canvas}', [CanvasController::class, 'destroy'])
         ->name('canvas.destroy');
+
+    // Pixels
+    Route::put('/canvases/{canvas}/pixels', [PixelController::class, 'store'])
+        ->name('canvas.pixels.store');
 });
 
 require __DIR__.'/settings.php';

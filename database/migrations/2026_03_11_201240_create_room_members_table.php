@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('room_members', function (Blueprint $table) {
             $table->foreignId('room_id')->constrained('rooms')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('role');
             $table->timestamps();
 
             $table->primary(['room_id', 'user_id']);

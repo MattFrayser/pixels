@@ -35,6 +35,6 @@ class Project extends Model
 
     public function room(): HasOne
     {
-        return $this->HasOne(Room::class);
+        return $this->hasOne(Room::class);
     }
 }

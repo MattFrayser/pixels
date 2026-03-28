@@ -3,47 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pixel;
-use Illuminate\Http\Request;
+use App\Models\Canvas;
+use App\Http\Requests\StorePixelRequest;
 
 class PixelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function store(StorePixelRequest $request, Canvas $canvas)
     {
-        //
+        $this->authorize('update', $canvas);
+
+        $pixels = collect($request->validated('pixels'))->map(function ($pixel) use ($canvas){
+            return array_merge($pixel, [
+                'canvas_id' => $canvas->id,
+                'user_id' => auth()->id(),
+            ]);
+        })
+
+        $canvas->pixels()->upsert($pixels, ['canvas_id', 'x', 'y'], ['color', 'user_id']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Pixel $pixel)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Pixel $pixel)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Pixel $pixel)
-    {
-        //
-    }
 }

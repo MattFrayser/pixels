@@ -21,15 +21,14 @@ class Room extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function owner(): BelongsTo
+    public function owner(): ?User
     {
-        return $this->project->user();
+        return $this->project?->user;
     }
 
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'room_members')
-            ->withPivot('role')
             ->withTimestamps();
     }
 }

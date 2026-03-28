@@ -2,32 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RoomMember;
-use Illuminate\Http\Request;
+use App\Models\Room;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class RoomMemberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function store(Room $room): RedirectResponse
     {
-        //
+        $this->authorize('join', $room);
+
+        $room->members()->attach(Auth::id());
+
+        return redirect()->route('rooms.show', $room);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function destroy(Room $room): RedirectResponse
     {
-        //
-    }
+        $this->authorize('leave', $room);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RoomMember $roomMember)
-    {
-        //
+        $room->members()->detach(Auth::id());
+
+        return redirect()->route('rooms.index');
     }
 }

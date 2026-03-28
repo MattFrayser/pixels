@@ -4,7 +4,9 @@ use App\Models\Canvas;
 use App\Models\Project;
 use App\Models\Room;
 use App\Models\User;
-use App\RoomRole;
+use Tests\TestCase;
+
+/** @var TestCase $this */
 
 // -- Creation --
 test('owner can create canvas', function () {
@@ -19,32 +21,18 @@ test('owner can create canvas', function () {
     expect(Canvas::first()->sort_order)->toBe(1);
 });
 
-test('editor can create canvas', function () {
+test('member can create canvas', function () {
     $owner = User::factory()->create();
-    $editor = User::factory()->create();
+    $member = User::factory()->create();
     $project = Project::factory()->for($owner)->create();
     $room = Room::factory()->for($project)->create();
-    $room->members()->attach($editor, ['role' => RoomRole::Editor->value]);
+    $room->members()->attach($member);
 
-    $this->actingAs($editor)
+    $this->actingAs($member)
         ->post(route('canvas.store', $project))
         ->assertSuccessful();
 
     expect(Canvas::count())->toBe(1);
-});
-
-test('viewer cannot create canvas', function () {
-    $owner = User::factory()->create();
-    $viewer = User::factory()->create();
-    $project = Project::factory()->for($owner)->create();
-    $room = Room::factory()->for($project)->create();
-    $room->members()->attach($viewer, ['role' => RoomRole::Viewer->value]);
-
-    $this->actingAs($viewer)
-        ->post(route('canvas.store', $project))
-        ->assertForbidden();
-
-    expect(Canvas::count())->toBe(0);
 });
 
 // -- Update --
@@ -63,34 +51,19 @@ test('owner can update canvas sort order', function () {
     expect($canvas->fresh()->sort_order)->toBe(0);
 });
 
-test('editor can update canvas sort order', function () {
+test('member can update canvas sort order', function () {
     $owner = User::factory()->create();
-    $editor = User::factory()->create();
+    $member = User::factory()->create();
     $project = Project::factory()->for($owner)->create();
     $room = Room::factory()->for($project)->create();
-    $room->members()->attach($editor, ['role' => RoomRole::Editor->value]);
+    $room->members()->attach($member);
     $canvas = Canvas::factory()->for($project)->create(['sort_order' => 0]);
 
-    $this->actingAs($editor)
+    $this->actingAs($member)
         ->patch(route('canvas.update', $canvas), [
             'sort_order' => 0,
         ])
         ->assertSuccessful();
-});
-
-test('viewer cannot update canvas', function () {
-    $owner = User::factory()->create();
-    $viewer = User::factory()->create();
-    $project = Project::factory()->for($owner)->create();
-    $room = Room::factory()->for($project)->create();
-    $room->members()->attach($viewer, ['role' => RoomRole::Viewer->value]);
-    $canvas = Canvas::factory()->for($project)->create(['sort_order' => 0]);
-
-    $this->actingAs($viewer)
-        ->patch(route('canvas.update', $canvas), [
-            'sort_order' => 0,
-        ])
-        ->assertForbidden();
 });
 
 // -- Deletion --
@@ -108,13 +81,13 @@ test('owner can delete canvas', function () {
 
 test('non-owner cannot delete canvas', function () {
     $owner = User::factory()->create();
-    $editor = User::factory()->create();
+    $member = User::factory()->create();
     $project = Project::factory()->for($owner)->create();
     $room = Room::factory()->for($project)->create();
-    $room->members()->attach($editor, ['role' => RoomRole::Editor->value]);
+    $room->members()->attach($member);
     $canvas = Canvas::factory()->for($project)->create();
 
-    $this->actingAs($editor)
+    $this->actingAs($member)
         ->delete(route('canvas.destroy', $canvas))
         ->assertForbidden();
 

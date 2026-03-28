@@ -19,7 +19,7 @@ test('user has many projects', function () {
 test('user can belong to many rooms', function () {
     $user = User::factory()->create();
     $rooms = Room::factory()->count(2)->create();
-    $user->rooms()->attach($rooms->pluck('id'), ['role' => 'viewer']);
+    $user->rooms()->attach($rooms->pluck('id'));
 
     expect($user->rooms)->toHaveCount(2);
 });
