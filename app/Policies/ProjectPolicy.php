@@ -7,6 +7,11 @@ use App\Models\User;
 
 class ProjectPolicy
 {
+    public function create(User $user): bool
+    {
+        return true;
+    }
+
     public function view(User $user, Project $project): bool
     {
         return $project->public || $user->id === $project->user_id;

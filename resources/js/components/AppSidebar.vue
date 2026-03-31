@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
+import { FolderGit2 } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
+import CanvasToolbar from '@/components/CanvasToolbar.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import {
     Sidebar,
@@ -14,7 +15,6 @@ import {
 } from '@/components/ui/sidebar';
 import { home } from '@/routes';
 import type { NavItem } from '@/types';
-import CanvasToolbar from '@/components/CanvasToolbar.vue';
 
 const footerNavItems: NavItem[] = [
     {
@@ -44,8 +44,7 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            Grid Size
-            Current Pos
+            Grid Size Current Pos
             <NavFooter :items="footerNavItems" />
         </SidebarFooter>
     </Sidebar>

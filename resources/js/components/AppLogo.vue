@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-center text-md mb-0.5 font-semibold">
+    <div class="text-md mb-0.5 flex items-center justify-center font-semibold">
         <p>PIXELS</p>
     </div>
 </template>
